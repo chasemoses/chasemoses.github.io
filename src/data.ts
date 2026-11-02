@@ -131,7 +131,7 @@ export const projects: Project[] = [
       'The README is candid about what I’d do differently today',
     ],
     skills: ['.NET MAUI', 'Blazor', 'ASP.NET Core', 'REST APIs', 'Entity Framework Core', 'SQL Server', 'Clean Architecture', 'MediatR'],
-    repo: github('WisdomInLearning'),
+    repo: github('WisdomInLearningCopy'),
     shots: [
       { src: 'images/wisdom-in-learning.png', alt: 'Two phone screens: student list and student details' },
       { src: 'images/wisdom-students.jpg', alt: 'Student list on Android' },
