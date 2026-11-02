@@ -1,15 +1,17 @@
 import { useEffect, useState } from 'react';
-import type { Project } from '../data';
+import type { Shot } from '../data';
 
 interface Props {
-  project: Project;
+  title: string;
+  shots: Shot[];
+  start?: number;
   onClose: () => void;
 }
 
-export function Lightbox({ project, onClose }: Props) {
-  const [index, setIndex] = useState(0);
-  const count = project.shots.length;
-  const shot = project.shots[index];
+export function Lightbox({ title, shots, start = 0, onClose }: Props) {
+  const [index, setIndex] = useState(start);
+  const count = shots.length;
+  const shot = shots[index];
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -26,11 +28,11 @@ export function Lightbox({ project, onClose }: Props) {
   }, [count, onClose]);
 
   return (
-    <div className="lightbox" role="dialog" aria-modal="true" aria-label={`${project.title} screenshots`} onClick={onClose}>
+    <div className="lightbox" role="dialog" aria-modal="true" aria-label={`${title} screenshots`} onClick={onClose}>
       <figure onClick={e => e.stopPropagation()}>
         <img src={shot.src} alt={shot.alt} />
         <figcaption>
-          <span>{project.title}{count > 1 ? ` · ${index + 1} of ${count}` : ''}</span>
+          <span>{title}{count > 1 ? ` · ${index + 1} of ${count}` : ''}</span>
           <span className="lightbox-actions">
             {count > 1 && (
               <>

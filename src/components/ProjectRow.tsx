@@ -1,4 +1,4 @@
-import type { Project } from '../data';
+import type { Project, Shot } from '../data';
 import { useReveal } from '../hooks';
 
 interface Props {
@@ -6,7 +6,7 @@ interface Props {
   index: number;
   activeSkill: string | null;
   onSkill: (skill: string) => void;
-  onOpenShots: (project: Project) => void;
+  onOpenShots: (title: string, shots: Shot[]) => void;
 }
 
 export function ProjectRow({ project, index, activeSkill, onSkill, onOpenShots }: Props) {
@@ -18,7 +18,7 @@ export function ProjectRow({ project, index, activeSkill, onSkill, onOpenShots }
       <button
         type="button"
         className={`frame ${project.fit === 'contain' ? 'frame-fit' : 'frame-browser'}`}
-        onClick={() => onOpenShots(project)}
+        onClick={() => onOpenShots(project.title, project.shots)}
         aria-label={`View screenshots of ${project.title}`}
       >
         {project.fit !== 'contain' && (
@@ -60,9 +60,13 @@ export function ProjectRow({ project, index, activeSkill, onSkill, onOpenShots }
             </button>
           ))}
         </div>
-        <a className="repo-link" href={project.repo} target="_blank" rel="noreferrer">
-          Read the code and design notes <span aria-hidden="true">→</span>
-        </a>
+        {project.privateRepo ? (
+          <p className="repo-private">Private repository: I’m glad to walk through the code.</p>
+        ) : (
+          <a className="repo-link" href={project.repo} target="_blank" rel="noreferrer">
+            Read the code and design notes <span aria-hidden="true">→</span>
+          </a>
+        )}
       </div>
     </article>
   );

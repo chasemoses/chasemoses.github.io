@@ -1,16 +1,17 @@
 import { useCallback, useMemo, useState } from 'react';
-import { background, contact, projects, totalTests, type Project } from './data';
+import { background, contact, projects, totalTests, type Shot } from './data';
 import { useTheme } from './hooks';
 import { ProjectRow } from './components/ProjectRow';
 import { Lightbox } from './components/Lightbox';
+import { AiProcess } from './components/AiProcess';
 
 // The skills a hiring team is most likely to look for, in that order.
-const FILTERS = ['C#', 'Blazor', 'SQL Server', 'Entity Framework Core', 'ASP.NET Core', 'Angular', '.NET MAUI', 'xUnit'];
+const FILTERS = ['AI agents', 'C#', 'Blazor', 'SQL Server', 'Entity Framework Core', 'ASP.NET Core', 'Angular', '.NET MAUI', 'xUnit'];
 
 export default function App() {
   const [theme, toggleTheme] = useTheme();
   const [skill, setSkill] = useState<string | null>(null);
-  const [open, setOpen] = useState<Project | null>(null);
+  const [open, setOpen] = useState<{ title: string; shots: Shot[]; start?: number } | null>(null);
 
   const shown = useMemo(() => (skill ? projects.filter(p => p.skills.includes(skill)) : projects), [skill]);
 
@@ -19,6 +20,7 @@ export default function App() {
     document.getElementById('work')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }, []);
   const close = useCallback(() => setOpen(null), []);
+  const openShots = useCallback((title: string, shots: Shot[], start?: number) => setOpen({ title, shots, start }), []);
 
   return (
     <>
@@ -26,6 +28,7 @@ export default function App() {
         <div className="container topbar-inner">
           <a className="brand" href="#top">Chase Moses</a>
           <nav aria-label="Primary">
+            <a href="#ai">AI process</a>
             <a href="#work">Work</a>
             <a href="#background">Background</a>
             <a href={contact.pdf} download>PDF</a>
@@ -40,27 +43,34 @@ export default function App() {
         <section className="hero">
           <div className="container">
             <p className="eyebrow">Software Engineer · Rexburg, Idaho · BYU-Idaho alumnus</p>
+            <p className="print-contact">
+              Chase Moses · {contact.email} · {contact.github.replace('https://', '')} · {contact.linkedin.replace('https://', '')}
+            </p>
             <h1>
-              I build and maintain the <em>.NET</em> applications people rely on every day.
+              I build <em>.NET</em> applications, with <em>AI agents</em> on the team.
             </h1>
             <p className="lede">
-              Each project below comes from a system I’ve built or worked on: work projects rebuilt from scratch so the
-              code can be public, plus a client app and a personal one. Every repository explains the decisions, the
-              trade-offs, and what testing caught.
+              My day runs through a dashboard I built where AI agents plan, build, and review work, and I approve every
+              plan and merge every change. Below is that process, and the projects that show it: work systems rebuilt so
+              the code can be public, a client app, and the tools I use every day.
             </p>
             <div className="hero-actions">
-              <a className="button button-primary" href="#work">See the work</a>
-              <a className="button" href={`mailto:${contact.email}`}>{contact.email}</a>
+              <a className="button button-primary" href="#ai">How I work with AI</a>
+              <a className="button" href="#work">See the projects</a>
+              <a className="button button-quiet" href={`mailto:${contact.email}`}>Email me</a>
               <a className="button button-quiet" href={contact.github} target="_blank" rel="noreferrer">GitHub</a>
               <a className="button button-quiet" href={contact.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
             </div>
             <dl className="facts">
-              <div><dt>{projects.length}</dt><dd>projects with source and design notes</dd></div>
+              <div><dt>8</dt><dd>AI agents in my daily workflow</dd></div>
+              <div><dt>{projects.length}</dt><dd>projects with design notes</dd></div>
               <div><dt>{totalTests}</dt><dd>automated tests, all passing</dd></div>
               <div><dt>C# · Blazor · SQL Server</dt><dd>what I work in every day</dd></div>
             </dl>
           </div>
         </section>
+
+        <AiProcess onOpenShots={openShots} />
 
         <section id="work" className="work">
           <div className="container">
@@ -82,7 +92,7 @@ export default function App() {
             </div>
 
             {shown.map((p, i) => (
-              <ProjectRow key={p.id} project={p} index={i} activeSkill={skill} onSkill={pickSkill} onOpenShots={setOpen} />
+              <ProjectRow key={p.id} project={p} index={i} activeSkill={skill} onSkill={pickSkill} onOpenShots={openShots} />
             ))}
           </div>
         </section>
@@ -111,7 +121,7 @@ export default function App() {
         </div>
       </footer>
 
-      {open && <Lightbox project={open} onClose={close} />}
+      {open && <Lightbox title={open.title} shots={open.shots} start={open.start} onClose={close} />}
     </>
   );
 }

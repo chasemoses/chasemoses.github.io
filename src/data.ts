@@ -14,6 +14,8 @@ export interface Project {
   highlights: string[];
   skills: string[];
   repo: string;
+  /** Private repos show a note instead of a link. */
+  privateRepo?: boolean;
   /** The first shot is the thumbnail; all of them open in the lightbox. */
   shots: Shot[];
   /** Diagrams are shown whole; screenshots fill the frame from the top. */
@@ -24,6 +26,29 @@ export interface Project {
 const github = (name: string) => `https://github.com/chasemoses/${name}`;
 
 export const projects: Project[] = [
+  {
+    id: 'pkm',
+    title: 'PKM Agent Dashboard',
+    kind: 'Personal project',
+    origin: 'What I use every day · self-hosted on my home lab · 256 commits, 43 pull requests',
+    summary:
+      'The control plane for my AI agents: a task board, shared memory and docs, scheduled jobs, and a live graph of everything they’re doing. Agents plan, build, and review work through it; I approve every plan and merge every change.',
+    highlights: [
+      'A separate reviewer agent checks evidence against every acceptance criterion and escalates to me after two failures',
+      'A plain-code poller dispatches tasks and scheduled jobs, so an idle system costs no model usage',
+      'Packaged as an installable kit for Windows, Mac, Linux, and Proxmox, with backups and rollback-safe upgrades',
+    ],
+    skills: ['AI agents', 'Agent orchestration', 'MCP', 'React', 'Node.js', 'Express', 'PostgreSQL', 'Docker', 'GitHub Actions', 'Proxmox'],
+    repo: github('PKM-dashboard'),
+    privateRepo: true,
+    shots: [
+      { src: 'images/pkm-board.png', alt: 'Task board with inbox, planning, waiting on you, in progress, review, and done columns' },
+      { src: 'images/pkm-graph.png', alt: 'Live graph of projects, tasks, docs, and the agents working on them' },
+      { src: 'images/pkm-review.png', alt: 'A reviewer agent failing a pull request with specific findings and independently run checks' },
+      { src: 'images/pkm-direction.png', alt: 'After two failed reviews, the task escalates to me and I narrow the fix' },
+    ],
+    stat: { value: '8', label: 'AI agents on the board' },
+  },
   {
     id: 'documents',
     title: 'Versioned Document Attachments',
@@ -126,7 +151,7 @@ export const projects: Project[] = [
       'A feasibility spike deliberately said no to fingerprint sign-in for kids',
       'Notifications survive a phone in a pocket with a custom reconnect policy',
     ],
-    skills: ['.NET MAUI', 'ASP.NET Core', 'SignalR', 'Entity Framework Core', 'PostgreSQL', 'Docker', 'JWT', 'MediatR'],
+    skills: ['AI agents', '.NET MAUI', 'ASP.NET Core', 'SignalR', 'Entity Framework Core', 'PostgreSQL', 'Docker', 'JWT', 'MediatR'],
     repo: github('HomeManagementSystem'),
     shots: [{ src: 'images/home-management.png', alt: 'Diagram of the chore approval loop from picture sign-in to parent approval' }],
     fit: 'contain',
@@ -149,4 +174,76 @@ export const contact = {
   linkedin: 'https://linkedin.com/in/chase-moses',
   github: 'https://github.com/chasemoses',
   pdf: 'Chase-Moses-Portfolio.pdf',
+};
+
+// ---------- How I work with AI ----------
+
+export interface LoopStep {
+  title: string;
+  text: string;
+  /** A step where a person, not an agent, makes the call. */
+  gate?: string;
+}
+
+export const loop: LoopStep[] = [
+  { title: 'Capture', text: 'A task lands on the board, from me or from my assistant agent in chat. Ideas I only want to remember wait in an inbox until I act on them.' },
+  { title: 'Plan', text: 'The builder agent writes a plan with acceptance criteria.', gate: 'I approve the plan before any work starts.' },
+  { title: 'Build', text: 'Work happens on a branch in a separate worktree and comes back as a pull request with test evidence and a plain-language “How it works.”' },
+  { title: 'Review', text: 'A separate reviewer agent checks the evidence against every acceptance criterion. It can’t fix the work itself, and two failed reviews escalate to me.' },
+  { title: 'Ship', text: 'Merging deploys automatically through a self-hosted runner, and rolls back if the new version isn’t healthy.', gate: 'I merge. Nothing ships without me.' },
+  { title: 'Improve', text: 'When the loop fails, I fix the loop, not just the output: a new rule in the agents’ instructions and a test that keeps it there.' },
+];
+
+export interface Lesson {
+  happened: string;
+  changed: string;
+}
+
+/** Real incidents from the PKM Dashboard's history, and the rule each one produced. */
+export const lessons: Lesson[] = [
+  {
+    happened: 'An agent edited a live checkout instead of opening a pull request, and the reviewer passed it because the content was right.',
+    changed: 'Repo changes must arrive as a pull request from a separate worktree. The reviewer now fails any work without one.',
+  },
+  {
+    happened: 'Scheduled flight-price checks failed silently for seven weeks after their routes changed, and every run still looked successful.',
+    changed: 'One job checks every active route, and agents report failed runs, so a failure shows red on the Jobs page with its reason.',
+  },
+  {
+    happened: 'A task was marked blocked with the real reason buried at the bottom of a long result document.',
+    changed: 'The API refuses to block a task without a reason, and the reason appears right in the activity log.',
+  },
+  {
+    happened: 'Hitting a usage limit burned through all three retries in a minute and blocked the task.',
+    changed: 'The poller reads the provider’s reset time, waits it out, and resumes the work instead of failing it.',
+  },
+];
+
+export const practices = [
+  {
+    title: 'At work',
+    text: 'GitHub Copilot every day. For larger changes I write a design proposal with an AI assistant and review it before any code is written. An AI-assisted investigation found the bottleneck behind my filtered-index fix, and I’ve written guidance for our developers on where AI helps and where its output needs checking.',
+  },
+  {
+    title: 'Phased planning',
+    text: 'Home Management System was built in research, plan, check, execute, and verify phases with specialized agents. Every plan and verification report is kept in the repository.',
+  },
+  {
+    title: 'Cost and reliability',
+    text: 'Routine jobs run as plain scripts with no model calls, and an idle system costs nothing. When an agent setup quietly died after hitting a usage cap, I rebuilt its job as a lightweight script so it couldn’t happen again.',
+  },
+  {
+    title: 'No lock-in',
+    text: 'The dashboard knows nothing about any single AI tool. Agents running in OpenClaw, Claude Code, or Codex connect through the same API, so changing providers doesn’t mean rebuilding.',
+  },
+];
+
+/** The task shown as a worked example in the AI section. */
+export const example = {
+  title: 'One task, start to finish',
+  text: 'Upgrading the agent kit to 0.1.1: the reviewer failed the pull request twice, the second time because a regression test didn’t reproduce the real production failure. The task escalated to me, I narrowed the fix to the two missing tests, and it passed the next review.',
+  shots: [
+    { src: 'images/pkm-review.png', alt: 'Review round 2 failed, with findings and independently run checks' },
+    { src: 'images/pkm-direction.png', alt: 'Escalation to me, my direction, and the builder’s follow-up result' },
+  ],
 };
