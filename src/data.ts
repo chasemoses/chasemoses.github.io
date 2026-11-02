@@ -147,12 +147,13 @@ export const projects: Project[] = [
     summary:
       'Kids ages 3–8 sign in by tapping pictures and work from a picture-based board; parents approve finished chores from their phones in real time.',
     highlights: [
-      'Planned and built in verified phases with AI assistance; the plans are in the repo',
+      'Planned and built in verified phases with AI assistance; every plan is kept with the code',
       'A feasibility spike deliberately said no to fingerprint sign-in for kids',
       'Notifications survive a phone in a pocket with a custom reconnect policy',
     ],
     skills: ['AI agents', '.NET MAUI', 'ASP.NET Core', 'SignalR', 'Entity Framework Core', 'PostgreSQL', 'Docker', 'JWT', 'MediatR'],
     repo: github('HomeManagementSystem'),
+    privateRepo: true,
     shots: [{ src: 'images/home-management.png', alt: 'Diagram of the chore approval loop from picture sign-in to parent approval' }],
     fit: 'contain',
     stat: { value: '74', label: 'commits of phased work' },
