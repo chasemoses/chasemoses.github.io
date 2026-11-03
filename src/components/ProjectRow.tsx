@@ -61,7 +61,7 @@ export function ProjectRow({ project, index, activeSkill, onSkill, onOpenShots }
           ))}
         </div>
         {project.privateRepo ? (
-          <p className="repo-private">Private repository: I’m glad to walk through the code.</p>
+          <p className="repo-private">Private repository</p>
         ) : (
           <a className="repo-link" href={project.repo} target="_blank" rel="noreferrer">
             Read the code and design notes <span aria-hidden="true">→</span>
