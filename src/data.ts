@@ -223,7 +223,7 @@ export const lessons: Lesson[] = [
 export const practices = [
   {
     title: 'At work',
-    text: 'GitHub Copilot every day. For larger changes I write a design proposal with an AI assistant and review it before any code is written. An AI-assisted investigation found the bottleneck behind my filtered-index fix, and I’ve written guidance for our developers on where AI helps and where its output needs checking.',
+    text: 'GitHub Copilot every day. For larger changes I write a design proposal with an AI assistant and review it before any code is written. An AI-assisted investigation found the bottleneck behind my filtered-index fix, and I started writing guidance for our developers on where AI helps and where its output needs checking.',
   },
   {
     title: 'Phased planning',

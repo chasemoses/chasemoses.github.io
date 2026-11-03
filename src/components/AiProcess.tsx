@@ -23,6 +23,10 @@ export function AiProcess({ onOpenShots }: Props) {
             day on a platform I built, and it’s how I think about AI at work too: the speed is real, and so is the need
             to check what comes back.
           </p>
+          <p className="lede">
+            I build with Claude Code, OpenAI’s Codex and ChatGPT, and GitHub Copilot, and I run local models on my own
+            server when data shouldn’t leave the network.
+          </p>
         </div>
 
         <ol ref={loopReveal.ref} className={`loop ${loopReveal.className}`} aria-label="The agent loop">
