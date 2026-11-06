@@ -146,7 +146,7 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 600; letter-spacing: -.01em
 
 .project-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin-bottom: 10px; }
 .kind { font-size: .75rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; }
-.kind-work { color: var(--work); } .kind-client { color: var(--client); } .kind-personal { color: var(--personal); }
+.kind-professional { color: var(--work); } .kind-client { color: var(--client); } .kind-personal { color: var(--personal); }
 .stat { font-size: .85rem; color: var(--ink-3); }
 .stat b { color: var(--ink); font-weight: 600; }
 .project h3 { font-size: 1.75rem; line-height: 1.15; margin: 0 0 6px; }

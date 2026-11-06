@@ -51,8 +51,8 @@ export default function App() {
             </h1>
             <p className="lede">
               My day runs through a dashboard I built where AI agents plan, build, and review work, and I approve every
-              plan and merge every change. Below is that process, and the projects that show it: work systems rebuilt so
-              the code can be public, a client app, and the tools I use every day.
+              plan and merge every change. Below is that process, and the projects that show it: original builds of
+              problems I’ve solved professionally, a client app, and the tools I use every day.
             </p>
             <div className="hero-actions">
               <a className="button button-primary" href="#ai">How I work with AI</a>

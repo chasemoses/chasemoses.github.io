@@ -1,4 +1,4 @@
-export type ProjectKind = 'Work, rebuilt' | 'Client project' | 'Personal project';
+export type ProjectKind = 'Professional problem, original build' | 'Client project' | 'Personal project';
 
 export interface Shot {
   src: string;
@@ -13,7 +13,7 @@ export interface Project {
   summary: string;
   highlights: string[];
   skills: string[];
-  repo: string;
+  repo?: string;
   /** Private repos show a note instead of a link. */
   privateRepo?: boolean;
   /** The first shot is the thumbnail; all of them open in the lightbox. */
@@ -39,7 +39,6 @@ export const projects: Project[] = [
       'Packaged as an installable kit for Windows, Mac, Linux, and Proxmox, with backups and rollback-safe upgrades',
     ],
     skills: ['AI agents', 'Agent orchestration', 'MCP', 'React', 'Node.js', 'Express', 'PostgreSQL', 'Docker', 'GitHub Actions', 'Proxmox'],
-    repo: github('PKM-dashboard'),
     privateRepo: true,
     shots: [
       { src: 'images/pkm-board.png', alt: 'Task board with inbox, planning, waiting on you, in progress, review, and done columns' },
@@ -52,8 +51,8 @@ export const projects: Project[] = [
   {
     id: 'documents',
     title: 'Versioned Document Attachments',
-    kind: 'Work, rebuilt',
-    origin: 'Rebuilt from a document management system I designed and built at FileOnQ',
+    kind: 'Professional problem, original build',
+    origin: 'A general take on versioned document storage, a problem I’ve solved professionally',
     summary:
       'Attach warranties, manuals, and photos to campus equipment, with full version history, safe content checks, and an audit trail of every change.',
     highlights: [
@@ -69,8 +68,8 @@ export const projects: Project[] = [
   {
     id: 'exports',
     title: 'Background Report Exports',
-    kind: 'Work, rebuilt',
-    origin: 'Rebuilt from background download processing I built at FileOnQ',
+    kind: 'Professional problem, original build',
+    origin: 'Built from scratch to show the background-export pattern',
     summary:
       'Large exports move out of the web request. The page responds immediately while a hosted worker builds the file and reports live progress.',
     highlights: [
@@ -86,8 +85,8 @@ export const projects: Project[] = [
   {
     id: 'indexes',
     title: 'Filtered Indexes for a Slow Import',
-    kind: 'Work, rebuilt',
-    origin: 'Reproduces a performance fix I made at FileOnQ',
+    kind: 'Professional problem, original build',
+    origin: 'A standalone demo of fixing a slow EAV import with filtered indexes',
     summary:
       'A bulk import was slow because SQL Server maintained seven index entries for every row, mostly for empty values. Filtered indexes fixed it.',
     highlights: [
@@ -104,7 +103,7 @@ export const projects: Project[] = [
   {
     id: 'race',
     title: 'Race Checkpoint Tracker',
-    kind: 'Work, rebuilt',
+    kind: 'Professional problem, original build',
     origin: 'Rebuilt from a Python app I wrote for the City of Rexburg',
     summary:
       'Volunteers type bib numbers at checkpoints, and the app turns those entries into live results for point-to-point and multi-lap courses.',
@@ -152,7 +151,6 @@ export const projects: Project[] = [
       'Notifications survive a phone in a pocket with a custom reconnect policy',
     ],
     skills: ['AI agents', '.NET MAUI', 'ASP.NET Core', 'SignalR', 'Entity Framework Core', 'PostgreSQL', 'Docker', 'JWT', 'MediatR'],
-    repo: github('HomeManagementSystem'),
     privateRepo: true,
     shots: [{ src: 'images/home-management.png', alt: 'Diagram of the chore approval loop from picture sign-in to parent approval' }],
     fit: 'contain',
